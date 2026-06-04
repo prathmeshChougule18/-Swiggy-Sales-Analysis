@@ -449,8 +449,13 @@ if page == "🏠 Overview":
         mode='lines+markers', line=dict(color='#ffd4a8',width=2,dash='dot'),
         marker=dict(color='#ffd4a8',size=7,symbol='circle'),
         yaxis='y2')
-    fig7.update_layout(**LAYOUT, height=220,
-        yaxis=dict(gridcolor='#1e3a5f',linecolor='#1e3a5f',tickprefix='₹',tickformat='.1s'),
+    fig7.update_layout(
+        paper_bgcolor='#0d2137', plot_bgcolor='#0d2137',
+        font=dict(color='#94a3b8', family='Nunito', size=11),
+        margin=dict(t=10,b=10,l=10,r=10),
+        height=220,
+        xaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f'),
+        yaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', tickprefix='₹', tickformat='.1s'),
         yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
                     title='Orders', titlefont=dict(color='#ffd4a8'), tickfont=dict(color='#ffd4a8')),
         legend=dict(bgcolor='rgba(0,0,0,0)', orientation='h', y=1.1, x=0.5, xanchor='center',
