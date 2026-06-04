@@ -24,13 +24,51 @@ html, body, [class*="css"] { font-family: 'Nunito', sans-serif !important; }
 .stApp { background-color: #0a1929 !important; }
 .main .block-container { padding: 1rem 1.5rem !important; max-width: 100% !important; }
 
-/* Sidebar */
+/* Sidebar - Image 2 style */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #07111f 0%, #0a1929 100%) !important;
-    border-right: 1px solid #1e3a5f !important; width: 220px !important;
+    background: linear-gradient(180deg, #0d1f35 0%, #0a1929 60%, #07111f 100%) !important;
+    border-right: 1px solid #1e3a5f !important;
+    width: 240px !important;
+    min-width: 240px !important;
 }
-section[data-testid="stSidebar"] * { color: #94a3b8 !important; }
-section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; border-radius: 8px !important; display: block !important; }
+section[data-testid="stSidebar"] > div { padding: 0 !important; }
+section[data-testid="stSidebar"] .stRadio > div { gap: 2px !important; }
+section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] { gap: 2px !important; }
+section[data-testid="stSidebar"] .stRadio label {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 20px !important;
+    border-radius: 10px !important;
+    margin: 2px 10px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
+}
+section[data-testid="stSidebar"] .stRadio label:hover {
+    background: rgba(252,128,25,0.1) !important;
+    color: #fc8019 !important;
+}
+section[data-testid="stSidebar"] .stRadio label:has(input:checked) {
+    background: linear-gradient(90deg, #fc8019, #e8660a) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(252,128,25,0.35) !important;
+    border-radius: 12px !important;
+}
+section[data-testid="stSidebar"] .stRadio label:has(input:checked) p {
+    color: white !important;
+    font-weight: 800 !important;
+}
+section[data-testid="stSidebar"] .stRadio label p {
+    color: inherit !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+}
+section[data-testid="stSidebar"] .stRadio input[type="radio"] { display: none !important; }
+section[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] * { color: inherit !important; }
 
 /* Header */
 .swiggy-topbar {
@@ -181,29 +219,59 @@ state_name_map = {'Jammu and Kashmir': 'Jammu & Kashmir', 'Delhi': 'Delhi'}
 
 # ═══════════════════ SIDEBAR ═══════════════════
 with st.sidebar:
+    # Logo header
     st.markdown(f"""
-    <div style='text-align:center; padding: 12px 0 8px;'>
+    <div style='padding: 20px 16px 8px; text-align:center;'>
         {SWIGGY_LOGO_SIDEBAR}
-        <div style='color:#64748b; font-size:10px; letter-spacing:2px; margin-top:6px;'>ANALYTICS DASHBOARD</div>
     </div>
-    <hr style='border-color:#1e3a5f; margin: 8px 0;'>
+    <hr style='border-color:#1e3a5f; margin: 4px 10px 12px;'>
     """, unsafe_allow_html=True)
 
     page = st.radio("", [
-        "🏠 Overview", "📈 Sales Trends", "📊 KPI's",
-        "🏪 Restaurants", "📦 Orders", "⭐ Ratings", "🗺️ Locations"
+        "🏠  Overview", "📈  Sales Trends", "📊  KPI's",
+        "🏪  Restaurants", "📦  Orders", "⭐  Ratings", "🗺️  Locations"
     ], label_visibility="collapsed")
 
+    # Delivery boy illustration (SVG)
     st.markdown("""
-    <hr style='border-color:#1e3a5f; margin: 12px 0 8px;'>
-    <div class='delivery-card'>
-        <div style='font-size:40px;'>🛵</div>
-        <div class='delivery-tagline'>Delicious food,<br>delivered fast!</div>
-        <div class='delivery-sub'>🍕 🍔 🍜 🍣</div>
+    <div style='margin: 20px 10px 0; border-radius:16px; overflow:hidden;
+                background: linear-gradient(160deg, #0f2a45 0%, #1a3a5f 100%);
+                border: 1px solid #1e3a5f; padding: 16px 12px 0; text-align:center;'>
+        <div style='color:white; font-size:15px; font-weight:800; line-height:1.4; margin-bottom:4px;'>
+            Delicious food,<br>delivered fast!
+        </div>
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto;">
+          <!-- Road -->
+          <ellipse cx="100" cy="148" rx="85" ry="10" fill="#0a1929" opacity="0.5"/>
+          <!-- Scooter body -->
+          <rect x="55" y="100" width="90" height="28" rx="10" fill="#fc8019"/>
+          <rect x="70" y="92" width="55" height="22" rx="8" fill="#e8660a"/>
+          <!-- Scooter windshield -->
+          <path d="M95 92 Q110 78 125 88 L118 92 Z" fill="#a8d8ff" opacity="0.7"/>
+          <!-- Front wheel -->
+          <circle cx="135" cy="128" r="16" fill="#1a2a3a" stroke="#fc8019" stroke-width="3"/>
+          <circle cx="135" cy="128" r="7" fill="#2a3a4a"/>
+          <!-- Rear wheel -->
+          <circle cx="65" cy="128" r="16" fill="#1a2a3a" stroke="#fc8019" stroke-width="3"/>
+          <circle cx="65" cy="128" r="7" fill="#2a3a4a"/>
+          <!-- Delivery box -->
+          <rect x="48" y="82" width="32" height="26" rx="5" fill="#fc8019" stroke="#ffd4a8" stroke-width="1.5"/>
+          <text x="64" y="99" text-anchor="middle" font-size="11" font-weight="bold" fill="white">S</text>
+          <!-- Rider body -->
+          <ellipse cx="105" cy="90" rx="14" ry="18" fill="#fc8019"/>
+          <!-- Rider head -->
+          <circle cx="105" cy="66" r="13" fill="#f4c89a"/>
+          <!-- Helmet -->
+          <path d="M92 64 Q92 48 105 47 Q118 48 118 64 Q115 58 105 57 Q95 58 92 64Z" fill="#e8660a"/>
+          <rect x="92" y="63" width="26" height="5" rx="2" fill="#cc5500"/>
+          <!-- Rider arm -->
+          <path d="M118 88 Q128 90 132 98" stroke="#fc8019" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <!-- Swiggy bag on back -->
+          <rect x="88" y="84" width="10" height="14" rx="3" fill="#ff9f52"/>
+        </svg>
     </div>
-    <div class='ds-info'>
-        📊 Data Source: Swiggy<br>
-        🕐 Last Updated: Aug 2025
+    <div style='padding: 8px 10px 12px; text-align:center; color:#475569; font-size:10px;'>
+        📊 Swiggy Data · Aug 2025
     </div>
     """, unsafe_allow_html=True)
 
