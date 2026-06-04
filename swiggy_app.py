@@ -185,8 +185,8 @@ def delta_pct(curr, prev):
 LAYOUT = dict(paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
               font=dict(color='#1e3a5f', family='Nunito', size=11),
               margin=dict(t=10,b=10,l=10,r=10),
-              xaxis=dict(gridcolor='#1e3a5f', linecolor='#e0e0e0', showgrid=True),
-              yaxis=dict(gridcolor='#1e3a5f', linecolor='#e0e0e0', showgrid=True))
+              xaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True),
+              yaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True))
 
 df = load_data()
 india_geojson = get_india_geojson()
