@@ -491,22 +491,152 @@ elif page == "📈 Sales Trends":
 
 # ═══════════════════ KPI's PAGE ═══════════════════
 elif page == "📊 KPI's":
-    st.markdown("<h2 style='color:#fc8019;'>📊 KPI Summary</h2>", unsafe_allow_html=True)
-    k1,k2,k3 = st.columns(3)
-    with k1: st.metric("Total Sales", fmt_M(fdf['Price (INR)'].sum()))
-    with k2: st.metric("Avg Rating", f"{fdf['Rating'].mean():.2f}")
-    with k3: st.metric("Avg Order Value", fmt_inr(fdf['Price (INR)'].mean()))
-    k4,k5,k6 = st.columns(3)
-    with k4: st.metric("Total Orders", f"{len(fdf):,}")
-    with k5: st.metric("Total Rating Count", f"{fdf['Rating Count'].sum():,}")
-    with k6: st.metric("Unique Restaurants", f"{fdf['Restaurant Name'].nunique():,}")
-    st.markdown('<div class="chart-card"><div class="chart-title">Quarterly Performance</div>', unsafe_allow_html=True)
-    qdf = fdf.groupby('Quarter').agg(Sales=('Price (INR)','sum'), Rating=('Rating','mean'), Orders=('Price (INR)','count')).reset_index()
-    fig = px.bar(qdf, x='Quarter', y='Sales', color_discrete_sequence=['#fc8019'],
-                 text=qdf['Sales'].apply(fmt_M))
-    fig.update_layout(**LAYOUT, height=250)
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style='margin-bottom:16px;'>
+        <span style='color:#fc8019;font-size:22px;font-weight:900;letter-spacing:1px;'>📊 KPI SUMMARY</span>
+        <span style='color:#475569;font-size:12px;margin-left:12px;'>Performance at a glance</span>
+    </div>""", unsafe_allow_html=True)
+
+    total_sales  = fdf['Price (INR)'].sum()
+    avg_rating   = fdf['Rating'].mean()
+    avg_order    = fdf['Price (INR)'].mean()
+    total_orders = len(fdf)
+    total_rc     = fdf['Rating Count'].sum()
+    unique_rest  = fdf['Restaurant Name'].nunique()
+
+    kpi_data = [
+        ("💰", "#fc8019", "#3d1a00", "Total Revenue",       fmt_M(total_sales),          f"₹{total_sales/1e7:.2f} Crore total",  d_sales),
+        ("⭐", "#f59e0b", "#3d2e00", "Average Rating",      f"{avg_rating:.2f} / 5.0",   "Customer satisfaction score",           d_rating),
+        ("🛍️", "#3b82f6", "#0a1f3d", "Avg Order Value",    fmt_inr(avg_order),           "Per transaction average",               d_avg),
+        ("📋", "#10b981", "#0a2d1f", "Total Orders",        f"{total_orders:,}",          f"{total_orders/1000:.1f}K orders placed", d_ord),
+        ("👥", "#8b5cf6", "#1e0a3d", "Total Rating Count",  f"{total_rc/1e6:.2f}M",      "Cumulative ratings received",           d_rc),
+        ("🏪", "#ec4899", "#3d0a24", "Unique Restaurants",  f"{unique_rest:,}",           "Active restaurant partners",            0),
+    ]
+
+    c1, c2, c3 = st.columns(3)
+    cols_cycle = [c1, c2, c3, c1, c2, c3]
+    for i, (icon, color, bg, label, val, sub, delta) in enumerate(kpi_data):
+        d_class = "up" if delta >= 0 else "down"
+        d_arrow = "▲" if delta >= 0 else "▼"
+        delta_html = f"<div class='kpi-delta {d_class}'>{d_arrow} {abs(delta):.1f}% vs prev month</div>" if delta != 0 else f"<div style='color:#475569;font-size:11px;'>—</div>"
+        with cols_cycle[i]:
+            st.markdown(f"""
+            <div class="kpi-wrap" style="margin-bottom:12px; position:relative; overflow:hidden;">
+                <div style="position:absolute;right:-10px;top:-10px;font-size:60px;opacity:0.06;">{icon}</div>
+                <div class="kpi-icon-circle" style="background:{bg};color:{color};font-size:24px;width:52px;height:52px;">{icon}</div>
+                <div class="kpi-info">
+                    <div class="kpi-label">{label}</div>
+                    <div class="kpi-value" style="font-size:26px;color:{color};">{val}</div>
+                    <div style="color:#475569;font-size:10px;margin:2px 0 4px;">{sub}</div>
+                    {delta_html}
+                </div>
+            </div>""", unsafe_allow_html=True)
+
+    st.markdown("<div style='margin:8px 0'></div>", unsafe_allow_html=True)
+
+    # ── Row: Quarterly bar + Rating gauge + Veg/NonVeg donut ──
+    qa, qb, qc = st.columns([2, 1, 1])
+
+    with qa:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">📅 Quarterly Revenue Breakdown</div>', unsafe_allow_html=True)
+        qdf = fdf.groupby('Quarter').agg(Sales=('Price (INR)','sum'), Rating=('Rating','mean'), Orders=('Price (INR)','count')).reset_index().sort_values('Quarter')
+        colors_q = ['#fc8019','#ff9f52','#ffc088','#ffd4a8'][:len(qdf)]
+        fig = go.Figure()
+        for idx, row in qdf.iterrows():
+            fig.add_bar(x=[row['Quarter']], y=[row['Sales']],
+                marker_color=colors_q[idx % len(colors_q)],
+                text=[fmt_M(row['Sales'])], textposition='outside',
+                textfont=dict(color='white', size=12),
+                name=row['Quarter'])
+        fig.update_layout(**LAYOUT, height=280, showlegend=False, bargap=0.35)
+        fig.update_yaxes(tickprefix='₹', tickformat='.1s')
+        fig.update_xaxes(tickfont=dict(size=12, color='#94a3b8'))
+        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with qb:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">⭐ Rating Gauge</div>', unsafe_allow_html=True)
+        fig_g = go.Figure(go.Indicator(
+            mode="gauge+number+delta",
+            value=avg_rating,
+            delta={'reference': 4.0, 'increasing': {'color': '#22c55e'}, 'decreasing': {'color': '#ef4444'}},
+            gauge={
+                'axis': {'range': [0, 5], 'tickcolor': '#94a3b8', 'tickfont': {'color': '#94a3b8', 'size': 10}},
+                'bar': {'color': '#fc8019', 'thickness': 0.25},
+                'bgcolor': '#0d2137',
+                'bordercolor': '#1e3a5f',
+                'steps': [
+                    {'range': [0, 2.5], 'color': '#1a0a00'},
+                    {'range': [2.5, 4.0], 'color': '#3d1a00'},
+                    {'range': [4.0, 5.0], 'color': '#5a2e00'},
+                ],
+                'threshold': {'line': {'color': '#ffd4a8', 'width': 3}, 'thickness': 0.75, 'value': 4.5}
+            },
+            number={'font': {'color': 'white', 'size': 30, 'family': 'Nunito'}, 'suffix': '/5'}
+        ))
+        fig_g.update_layout(paper_bgcolor='#0d2137', plot_bgcolor='#0d2137',
+            font=dict(color='#94a3b8', family='Nunito'), height=280,
+            margin=dict(t=30, b=10, l=20, r=20))
+        st.plotly_chart(fig_g, use_container_width=True, config={'displayModeBar':False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with qc:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">🥗 Veg vs Non-Veg Split</div>', unsafe_allow_html=True)
+        frev = fdf.groupby('Food Category')['Price (INR)'].sum().reset_index()
+        fig_d = go.Figure(go.Pie(
+            values=frev['Price (INR)'], labels=frev['Food Category'],
+            hole=0.58, marker_colors=['#22c55e','#fc8019'],
+            textinfo='label+percent', textfont=dict(size=11, color='white'),
+            pull=[0.04, 0]))
+        fig_d.update_layout(**LAYOUT, height=280,
+            legend=dict(orientation='h', y=-0.1, x=0.5, xanchor='center',
+                        font=dict(color='#94a3b8', size=10), bgcolor='rgba(0,0,0,0)'),
+            annotations=[dict(text=f"<b>{fmt_M(frev['Price (INR)'].sum())}</b>",
+                x=0.5, y=0.5, showarrow=False, font=dict(size=13, color='white'))])
+        st.plotly_chart(fig_d, use_container_width=True, config={'displayModeBar':False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # ── Row: Monthly trend + Top categories ──
+    ra, rb = st.columns([3, 2])
+
+    with ra:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">📈 Monthly Revenue Trend</div>', unsafe_allow_html=True)
+        mon = fdf.groupby('YearMonth')['Price (INR)'].sum().reset_index().sort_values('YearMonth')
+        fig_m = go.Figure(go.Scatter(x=mon['YearMonth'], y=mon['Price (INR)'],
+            mode='lines+markers', line=dict(color='#fc8019', width=2.5),
+            marker=dict(color='#fc8019', size=7, line=dict(color='white', width=1.5)),
+            fill='tozeroy', fillcolor='rgba(252,128,25,0.1)',
+            hovertemplate='%{x}<br>Revenue: ₹%{y:,.0f}<extra></extra>'))
+        fig_m.update_layout(**LAYOUT, height=220)
+        fig_m.update_yaxes(tickprefix='₹', tickformat='.1s')
+        fig_m.update_xaxes(tickangle=30, tickfont=dict(size=10))
+        st.plotly_chart(fig_m, use_container_width=True, config={'displayModeBar':False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with rb:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">🍽️ Top 5 Categories</div>', unsafe_allow_html=True)
+        cat5 = fdf.groupby('Category')['Price (INR)'].sum().nlargest(5).sort_values().reset_index()
+        max_c = cat5['Price (INR)'].max()
+        html_c = ""
+        for _, row in cat5.iterrows():
+            pct = int(row['Price (INR)'] / max_c * 100)
+            html_c += f"""
+            <div style="margin:10px 0;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:#e2e8f0;font-size:12px;font-weight:600;">{row['Category']}</span>
+                    <span style="color:#fc8019;font-size:12px;font-weight:700;">{fmt_M(row['Price (INR)'])}</span>
+                </div>
+                <div style="background:#1e3a5f;border-radius:6px;height:10px;">
+                    <div style="width:{pct}%;background:linear-gradient(90deg,#fc8019,#ffd4a8);border-radius:6px;height:10px;"></div>
+                </div>
+            </div>"""
+        st.markdown(html_c, unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ═══════════════════ RESTAURANTS PAGE ═══════════════════
