@@ -97,12 +97,7 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .chart-title {
     color: #1e3a5f; font-size: 13px; font-weight: 800;
     margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-    border: 2px solid #fc8019; border-radius: 8px;
-    padding: 7px 12px;
-    background: #fff8f2;
-    display: inline-block;
-    width: 100%;
-    box-sizing: border-box;
+    border-left: 3px solid #fc8019; padding-left: 8px;
 }
 
 /* Quarterly table */
