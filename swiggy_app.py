@@ -95,9 +95,13 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 .chart-title {
-    color: #1e3a5f; font-size: 13px; font-weight: 800;
-    margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-    border-left: 3px solid #fc8019; padding-left: 8px;
+    color: #1e3a5f; font-size: 12px; font-weight: 800;
+    margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.6px;
+    border-left: 4px solid #fc8019;
+    padding: 6px 10px;
+    background: rgba(252,128,25,0.06);
+    border-radius: 0 6px 6px 0;
+    display: flex; align-items: center; gap: 6px;
 }
 
 /* Quarterly table */
@@ -238,7 +242,7 @@ states  = ['All'] + sorted(df['State'].dropna().unique())
 cities  = ['All'] + sorted(df['City'].dropna().unique())
 months  = ['All'] + sorted(df['YearMonth'].dropna().unique())
 
-fc1, fc2, fc3, fc4 = st.columns([2,2,2,2])
+fc1, gap1, fc2, gap2, fc3, gap3, fc4 = st.columns([6,1,6,1,6,1,6])
 with fc1: sel_month = st.selectbox("📅 Month", months, key='m')
 with fc2: sel_state = st.selectbox("🗺️ State", states, key='s')
 with fc3: sel_city  = st.selectbox("🏙️ City", cities, key='c')
