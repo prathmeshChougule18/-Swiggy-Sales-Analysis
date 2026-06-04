@@ -627,12 +627,11 @@ elif page == "📊 KPI's":
             textposition='outside',
             textfont=dict(color='white', size=12, family='Nunito'),
         ))
-        fig_q1.update_layout(**LAYOUT, height=310,
-                              yaxis=dict(tickprefix='₹', tickformat='.2s',
-                                         gridcolor='rgba(30,58,95,0.6)', color='#64748b',
-                                         showgrid=True, zeroline=False),
-                              xaxis=dict(color='#94a3b8', showgrid=False),
-                              bargap=0.35)
+        fig_q1.update_layout(**LAYOUT, height=310, bargap=0.35)
+        fig_q1.update_yaxes(tickprefix='₹', tickformat='.2s',
+                            gridcolor='rgba(30,58,95,0.6)', color='#64748b',
+                            showgrid=True, zeroline=False)
+        fig_q1.update_xaxes(color='#94a3b8', showgrid=False)
         st.plotly_chart(fig_q1, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -658,10 +657,10 @@ elif page == "📊 KPI's":
                         symbol='circle'),
             showlegend=False
         ))
-        fig_q2.update_layout(**LAYOUT, height=310,
-                              yaxis=dict(range=[3.5, 5.2], gridcolor='rgba(30,58,95,0.6)',
-                                         color='#64748b', showgrid=True, zeroline=False),
-                              xaxis=dict(color='#94a3b8', showgrid=False))
+        fig_q2.update_layout(**LAYOUT, height=310)
+        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='rgba(30,58,95,0.6)',
+                            color='#64748b', showgrid=True, zeroline=False)
+        fig_q2.update_xaxes(color='#94a3b8', showgrid=False)
         st.plotly_chart(fig_q2, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
