@@ -54,8 +54,8 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 .swiggy-title-text { font-size: 22px; font-weight: 900; }
-.swiggy-title-text span:first-child { color: white; }
-.swiggy-title-text span:last-child { color: #fff3e0; margin-left: 6px; }
+.swiggy-title-text span:first-child { color: #1e3a5f; }
+.swiggy-title-text span:last-child { color: #1e3a5f; margin-left: 6px; }
 .swiggy-date { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; }
 
 /* KPI Cards */
@@ -97,7 +97,12 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .chart-title {
     color: #1e3a5f; font-size: 13px; font-weight: 800;
     margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-    border-left: 3px solid #fc8019; padding-left: 8px;
+    border: 2px solid #fc8019; border-radius: 8px;
+    padding: 7px 12px;
+    background: #fff8f2;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Quarterly table */
@@ -400,7 +405,7 @@ if page == "🏠 Overview":
             fig5.add_bar(x=[row['Food Category']], y=[row['Price (INR)']],
                 name=row['Food Category'], marker_color=colors.get(row['Food Category'],'#fc8019'),
                 text=[fmt_M(row['Price (INR)'])], textposition='outside',
-                textfont=dict(color='white',size=11,family='Nunito'))
+                textfont=dict(color='#1e3a5f',size=11,family='Nunito'))
         fig5.update_layout(**LAYOUT, height=220, showlegend=False, bargap=0.4)
         fig5.update_yaxes(tickprefix='₹', tickformat='.1s')
         st.plotly_chart(fig5, use_container_width=True, config={'displayModeBar':False})
@@ -532,7 +537,7 @@ elif page == "📊 KPI's":
                     border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;
                     box-shadow:0 4px 15px rgba(252,128,25,0.4);'>📊</div>
         <div>
-            <div style='color:white;font-size:22px;font-weight:900;line-height:1;'>KPI Summary</div>
+            <div style='color:#1e3a5f;font-size:22px;font-weight:900;line-height:1;'>KPI Summary</div>
             <div style='color:#1e3a5f;font-size:12px;margin-top:2px;'>Key performance indicators at a glance</div>
         </div>
     </div>""", unsafe_allow_html=True)
@@ -696,7 +701,7 @@ elif page == "📊 KPI's":
         <tr style="{'background:rgba(252,128,25,0.05);' if is_best else ''}">
             <td style="color:#fc8019;font-weight:800;font-size:13px;">{row['Quarter']}{q_badge}</td>
             <td>
-                <div style="font-weight:700;color:white;margin-bottom:3px;">{fmt_M(row['Sales'])}</div>
+                <div style="font-weight:700;color:#1e3a5f;margin-bottom:3px;">{fmt_M(row['Sales'])}</div>
                 <div style="background:#f5f5f5;border-radius:4px;height:5px;width:100%;margin-top:2px;">
                     <div style="background:linear-gradient(90deg,#fc8019,#ff9f52);height:5px;border-radius:4px;width:{bar_pct}%;"></div>
                 </div>
@@ -770,8 +775,8 @@ elif page == "⭐ Ratings":
     with c1:
         st.markdown('<div class="chart-card"><div class="chart-title">Rating Distribution</div>', unsafe_allow_html=True)
         fig = px.histogram(fdf, x='Rating', nbins=25, color_discrete_sequence=['#fc8019'])
-        fig.add_vline(x=fdf['Rating'].mean(), line_color='white', line_dash='dash',
-                      annotation_text=f"Avg: {fdf['Rating'].mean():.2f}", annotation_font_color='white')
+        fig.add_vline(x=fdf['Rating'].mean(), line_color='#1e3a5f', line_dash='dash',
+                      annotation_text=f"Avg: {fdf['Rating'].mean():.2f}", annotation_font_color='#1e3a5f')
         fig.update_layout(**LAYOUT, height=280)
         st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
@@ -822,7 +827,7 @@ st.markdown("""
 <div style='text-align:center;padding:20px 0;margin-top:20px;border-top:1px solid #1e3a5f;'>
     <span style='font-size:22px;'>🍊</span>
     <span style='color:#1e3a5f;font-size:12px;margin:0 12px;'>
-        © 2026 <strong style='color:white;'>Prathamesh Chougule</strong> · All Rights Reserved
+        © 2026 <strong style='color:#1e3a5f;'>Prathamesh Chougule</strong> · All Rights Reserved
     </span>
     <span style='font-size:22px;'>🍊</span>
     <br><span style='color:#1e3a5f;font-size:10px;'>Built with ❤️ using Python & Streamlit</span>
