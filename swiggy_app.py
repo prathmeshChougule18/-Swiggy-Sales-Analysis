@@ -61,7 +61,7 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 /* KPI Cards */
 .kpi-wrap {
     background: #ffffff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #1e3a5f;
     border-radius: 16px;
     padding: 20px 18px 16px 18px;
     display: flex; flex-direction: column;
@@ -88,7 +88,7 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 /* Chart Cards */
 .chart-card {
     background: #ffffff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #1e3a5f;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
@@ -102,8 +102,8 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 
 /* Quarterly table */
 .q-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.q-table th { color: #888888; font-weight: 700; padding: 8px 6px; border-bottom: 2px solid #eeeeee; text-align: left; }
-.q-table td { color: #333333; padding: 8px 6px; border-bottom: 1px solid #f0f0f0; }
+.q-table th { color: #888888; font-weight: 700; padding: 8px 6px; border-bottom: 2px solid #1e3a5f; text-align: left; }
+.q-table td { color: #333333; padding: 8px 6px; border-bottom: 1px solid #1e3a5f; }
 .q-table tr:hover td { background: #fef9f5; }
 .q-badge { background: #fff3e0; color: #fc8019; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
 .q-dash { color: #bbbbbb; }
@@ -125,18 +125,18 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .delivery-sub { color: #fc8019; font-size: 11px; margin-top: 4px; }
 
 /* Data source footer */
-.ds-info { color: #aaaaaa; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #e0e0e0; }
+.ds-info { color: #aaaaaa; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #1e3a5f; }
 
 /* Filters */
 .filter-card {
-    background: #ffffff; border: 1px solid #e0e0e0;
+    background: #ffffff; border: 1px solid #1e3a5f;
     border-radius: 12px; padding: 14px; margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .filter-title { color: #fc8019; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;}
-.stSelectbox > div > div { background: #ffffff !important; border-color: #e0e0e0 !important; color: #333333 !important; }
+.stSelectbox > div > div { background: #ffffff !important; border-color: #1e3a5f !important; color: #333333 !important; }
 </style>
 """, unsafe_allow_html=True)
 
