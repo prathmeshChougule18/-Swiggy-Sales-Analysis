@@ -182,11 +182,24 @@ def delta_pct(curr, prev):
     if prev==0: return 0
     return (curr - prev) / prev * 100
 
-LAYOUT = dict(paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
-              font=dict(color='#1e3a5f', family='Nunito', size=11),
-              margin=dict(t=10,b=10,l=10,r=10),
-              xaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True),
-              yaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True))
+_AXIS = dict(
+    gridcolor='rgba(30,58,95,0.15)',
+    linecolor='#1e3a5f',
+    tickcolor='#1e3a5f',
+    tickfont=dict(color='#1e3a5f', family='Nunito', size=11),
+    title_font=dict(color='#1e3a5f', family='Nunito', size=11),
+    showgrid=True,
+    zeroline=False,
+)
+LAYOUT = dict(
+    paper_bgcolor='#ffffff',
+    plot_bgcolor='#ffffff',
+    font=dict(color='#1e3a5f', family='Nunito', size=11),
+    margin=dict(t=10, b=10, l=10, r=10),
+    xaxis=_AXIS,
+    yaxis=_AXIS,
+    legend=dict(font=dict(color='#1e3a5f', family='Nunito', size=11)),
+)
 
 df = load_data()
 india_geojson = get_india_geojson()
@@ -471,10 +484,13 @@ if page == "🏠 Overview":
                     font=dict(color='#1e3a5f')),
         bargap=0.2)
     fig7.update_layout(
-        yaxis=dict(gridcolor='#1e3a5f',linecolor='#eeeeee',tickprefix='₹',tickformat='.1s'),
+        yaxis=dict(gridcolor='rgba(30,58,95,0.15)', linecolor='#1e3a5f',
+                   tickcolor='#1e3a5f', tickfont=dict(color='#1e3a5f', family='Nunito'),
+                   tickprefix='₹', tickformat='.1s'),
         yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
-                    title=dict(text='Orders', font=dict(color='#ffd4a8')),
-                    tickfont=dict(color='#ffd4a8')))
+                    linecolor='#1e3a5f', tickcolor='#1e3a5f',
+                    title=dict(text='Orders', font=dict(color='#1e3a5f', family='Nunito')),
+                    tickfont=dict(color='#1e3a5f', family='Nunito')))
     st.plotly_chart(fig7, use_container_width=True, config={'displayModeBar':False})
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -620,13 +636,15 @@ elif page == "📊 KPI's":
             marker_line_width=1.5,
             text=qdf['Sales'].apply(fmt_M),
             textposition='outside',
-            textfont=dict(color='white', size=12, family='Nunito'),
+            textfont=dict(color='#1e3a5f', size=12, family='Nunito'),
         ))
         fig_q1.update_layout(**LAYOUT, height=310, bargap=0.35)
         fig_q1.update_yaxes(tickprefix='₹', tickformat='.2s',
-                            gridcolor='#1e3a5f', color='#1e3a5f',
+                            gridcolor='rgba(30,58,95,0.15)', linecolor='#1e3a5f',
+                            tickcolor='#1e3a5f', tickfont=dict(color='#1e3a5f', family='Nunito'),
                             showgrid=True, zeroline=False)
-        fig_q1.update_xaxes(color='#1e3a5f', showgrid=False)
+        fig_q1.update_xaxes(linecolor='#1e3a5f', tickcolor='#1e3a5f',
+                            tickfont=dict(color='#1e3a5f', family='Nunito'), showgrid=False)
         st.plotly_chart(fig_q1, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -653,9 +671,12 @@ elif page == "📊 KPI's":
             showlegend=False
         ))
         fig_q2.update_layout(**LAYOUT, height=310)
-        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='#1e3a5f',
-                            color='#1e3a5f', showgrid=True, zeroline=False)
-        fig_q2.update_xaxes(color='#1e3a5f', showgrid=False)
+        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='rgba(30,58,95,0.15)',
+                            linecolor='#1e3a5f', tickcolor='#1e3a5f',
+                            tickfont=dict(color='#1e3a5f', family='Nunito'),
+                            showgrid=True, zeroline=False)
+        fig_q2.update_xaxes(linecolor='#1e3a5f', tickcolor='#1e3a5f',
+                            tickfont=dict(color='#1e3a5f', family='Nunito'), showgrid=False)
         st.plotly_chart(fig_q2, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
