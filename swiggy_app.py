@@ -141,6 +141,9 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;}
 .stSelectbox > div > div { background: #ffffff !important; border-color: #1e3a5f !important; color: #1e3a5f !important; }
+.stSelectbox label, .stSelectbox label p,
+div[data-testid="stSelectbox"] label,
+div[data-testid="stSelectbox"] label p { color: #1e3a5f !important; font-weight: 700 !important; font-size: 13px !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -242,6 +245,7 @@ states  = ['All'] + sorted(df['State'].dropna().unique())
 cities  = ['All'] + sorted(df['City'].dropna().unique())
 months  = ['All'] + sorted(df['YearMonth'].dropna().unique())
 
+st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 fc1, fc2, fc3, fc4 = st.columns([2,2,2,2], gap="large")
 with fc1: sel_month = st.selectbox("📅 Month", months, key='m')
 with fc2: sel_state = st.selectbox("🗺️ State", states, key='s')
@@ -279,6 +283,7 @@ if page == "🏠 Overview":
 
     # Top Bar
     date_label = f"{fdf['Order Date'].min().strftime('%d %b %Y')} – {fdf['Order Date'].max().strftime('%d %b %Y')}" if not fdf.empty else ""
+    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
     st.markdown(f"""
     <div class="swiggy-topbar">
         <div class="swiggy-brand">
