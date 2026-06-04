@@ -31,7 +31,7 @@ section[data-testid="stSidebar"] {
     border-right: 2px solid #fc8019 !important; width: 220px !important;
     box-shadow: 2px 0 12px rgba(252,128,25,0.08) !important;
 }
-section[data-testid="stSidebar"] * { color: #333333 !important; }
+section[data-testid="stSidebar"] * { color: #1e3a5f !important; }
 section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; border-radius: 8px !important; display: block !important; }
 
 /* Header */
@@ -76,14 +76,14 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     font-size: 20px; flex-shrink: 0;
 }
 .kpi-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.5px; }
-.kpi-label { color: #888888; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
-.kpi-value { color: #1a1a1a; font-size: 28px; font-weight: 900; margin: 0 0 6px 0; line-height: 1; letter-spacing: -0.5px; }
+.kpi-label { color: #1e3a5f; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+.kpi-value { color: #1e3a5f; font-size: 28px; font-weight: 900; margin: 0 0 6px 0; line-height: 1; letter-spacing: -0.5px; }
 .kpi-divider { height: 1px; background: #eeeeee; margin: 8px 0; }
 .kpi-footer { display: flex; align-items: center; justify-content: space-between; }
 .kpi-delta { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
 .kpi-delta.up { color: #16a34a; }
 .kpi-delta.down { color: #dc2626; }
-.kpi-sub { color: #aaaaaa; font-size: 10px; }
+.kpi-sub { color: #1e3a5f; font-size: 10px; }
 
 /* Chart Cards */
 .chart-card {
@@ -95,22 +95,22 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 .chart-title {
-    color: #333333; font-size: 13px; font-weight: 800;
+    color: #1e3a5f; font-size: 13px; font-weight: 800;
     margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
     border-left: 3px solid #fc8019; padding-left: 8px;
 }
 
 /* Quarterly table */
 .q-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.q-table th { color: #888888; font-weight: 700; padding: 8px 6px; border-bottom: 2px solid #1e3a5f; text-align: left; }
-.q-table td { color: #333333; padding: 8px 6px; border-bottom: 1px solid #1e3a5f; }
+.q-table th { color: #1e3a5f; font-weight: 700; padding: 8px 6px; border-bottom: 2px solid #1e3a5f; text-align: left; }
+.q-table td { color: #1e3a5f; padding: 8px 6px; border-bottom: 1px solid #1e3a5f; }
 .q-table tr:hover td { background: #fef9f5; }
 .q-badge { background: #fff3e0; color: #fc8019; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-.q-dash { color: #bbbbbb; }
+.q-dash { color: #1e3a5f; }
 
 /* City bar */
 .city-row { margin: 6px 0; }
-.city-name { color: #555555; font-size: 12px; margin-bottom: 3px; display: flex; justify-content: space-between; }
+.city-name { color: #1e3a5f; font-size: 12px; margin-bottom: 3px; display: flex; justify-content: space-between; }
 .city-bar-bg { background: #e8e8e8; border-radius: 4px; height: 8px; }
 .city-bar-fill { background: linear-gradient(90deg, #fc8019, #ff9f52); border-radius: 4px; height: 8px; }
 
@@ -121,11 +121,11 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     border-radius: 12px; padding: 16px; text-align: center;
     margin: 12px 0;
 }
-.delivery-tagline { color: #1a1a1a; font-weight: 800; font-size: 13px; line-height: 1.4; }
+.delivery-tagline { color: #1e3a5f; font-weight: 800; font-size: 13px; line-height: 1.4; }
 .delivery-sub { color: #fc8019; font-size: 11px; margin-top: 4px; }
 
 /* Data source footer */
-.ds-info { color: #aaaaaa; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #1e3a5f; }
+.ds-info { color: #1e3a5f; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #1e3a5f; }
 
 /* Filters */
 .filter-card {
@@ -136,7 +136,7 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .filter-title { color: #fc8019; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;}
-.stSelectbox > div > div { background: #ffffff !important; border-color: #1e3a5f !important; color: #333333 !important; }
+.stSelectbox > div > div { background: #ffffff !important; border-color: #1e3a5f !important; color: #1e3a5f !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -183,10 +183,10 @@ def delta_pct(curr, prev):
     return (curr - prev) / prev * 100
 
 LAYOUT = dict(paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
-              font=dict(color='#555555', family='Nunito', size=11),
+              font=dict(color='#1e3a5f', family='Nunito', size=11),
               margin=dict(t=10,b=10,l=10,r=10),
-              xaxis=dict(gridcolor='#eeeeee', linecolor='#e0e0e0', showgrid=True),
-              yaxis=dict(gridcolor='#eeeeee', linecolor='#e0e0e0', showgrid=True))
+              xaxis=dict(gridcolor='#1e3a5f', linecolor='#e0e0e0', showgrid=True),
+              yaxis=dict(gridcolor='#1e3a5f', linecolor='#e0e0e0', showgrid=True))
 
 df = load_data()
 india_geojson = get_india_geojson()
@@ -198,7 +198,7 @@ with st.sidebar:
     st.markdown(f"""
     <div style='text-align:center; padding: 12px 0 8px;'>
         {SWIGGY_LOGO_SIDEBAR}
-        <div style='color:#64748b; font-size:10px; letter-spacing:2px; margin-top:6px;'>ANALYTICS DASHBOARD</div>
+        <div style='color:#1e3a5f; font-size:10px; letter-spacing:2px; margin-top:6px;'>ANALYTICS DASHBOARD</div>
     </div>
     <hr style='border-color:#1e3a5f; margin: 8px 0;'>
     """, unsafe_allow_html=True)
@@ -266,7 +266,7 @@ if page == "🏠 Overview":
     <div class="swiggy-topbar">
         <div class="swiggy-brand">
             {SWIGGY_LOGO_IMG}
-            <div class="swiggy-title-text"><span style='color:#94a3b8;font-size:14px;font-weight:600;letter-spacing:2px;'>SALES DASHBOARD</span></div>
+            <div class="swiggy-title-text"><span style='color:#1e3a5f;font-size:14px;font-weight:600;letter-spacing:2px;'>SALES DASHBOARD</span></div>
         </div>
         <div class="swiggy-date">📅 {date_label}</div>
     </div>""", unsafe_allow_html=True)
@@ -296,7 +296,7 @@ if page == "🏠 Overview":
                 <div class="kpi-info">
                     <div class="kpi-label">{label}</div>
                     <div class="kpi-value">{val}</div>
-                    <div class="kpi-delta {d_class}">{d_arrow} {abs(delta):.1f}% &nbsp;<span style="color:#475569;font-weight:400;">vs {pm}</span></div>
+                    <div class="kpi-delta {d_class}">{d_arrow} {abs(delta):.1f}% &nbsp;<span style="color:#1e3a5f;font-weight:400;">vs {pm}</span></div>
                 </div>
             </div>""", unsafe_allow_html=True)
 
@@ -348,7 +348,7 @@ if page == "🏠 Overview":
             annotations=[dict(text=f"<b>{fmt_M(total_for_donut)}</b><br><span style='font-size:9px'>Total Sales</span>",
                 x=0.5, y=0.5, showarrow=False, font=dict(size=12,color='white'))],
             legend=dict(orientation='h', y=-0.1, x=0.5, xanchor='center',
-                        font=dict(color='#94a3b8',size=11), bgcolor='rgba(0,0,0,0)'))
+                        font=dict(color='#1e3a5f',size=11), bgcolor='rgba(0,0,0,0)'))
         st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -428,7 +428,7 @@ if page == "🏠 Overview":
                 <td>{r['Orders']/1000:.1f}K</td>
             </tr>"""
         if qdf.empty:
-            rows = "<tr><td colspan='4' style='color:#475569;text-align:center'>No data</td></tr>"
+            rows = "<tr><td colspan='4' style='color:#1e3a5f;text-align:center'>No data</td></tr>"
 
         st.markdown(f"""
         <table class='q-table'>
@@ -468,10 +468,10 @@ if page == "🏠 Overview":
         yaxis='y2')
     fig7.update_layout(**LAYOUT, height=220,
         legend=dict(bgcolor='rgba(0,0,0,0)', orientation='h', y=1.1, x=0.5, xanchor='center',
-                    font=dict(color='#94a3b8')),
+                    font=dict(color='#1e3a5f')),
         bargap=0.2)
     fig7.update_layout(
-        yaxis=dict(gridcolor='#eeeeee',linecolor='#eeeeee',tickprefix='₹',tickformat='.1s'),
+        yaxis=dict(gridcolor='#1e3a5f',linecolor='#eeeeee',tickprefix='₹',tickformat='.1s'),
         yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
                     title=dict(text='Orders', font=dict(color='#ffd4a8')),
                     tickfont=dict(color='#ffd4a8')))
@@ -518,7 +518,7 @@ elif page == "📊 KPI's":
                     box-shadow:0 4px 15px rgba(252,128,25,0.4);'>📊</div>
         <div>
             <div style='color:white;font-size:22px;font-weight:900;line-height:1;'>KPI Summary</div>
-            <div style='color:#64748b;font-size:12px;margin-top:2px;'>Key performance indicators at a glance</div>
+            <div style='color:#1e3a5f;font-size:12px;margin-top:2px;'>Key performance indicators at a glance</div>
         </div>
     </div>""", unsafe_allow_html=True)
 
@@ -624,9 +624,9 @@ elif page == "📊 KPI's":
         ))
         fig_q1.update_layout(**LAYOUT, height=310, bargap=0.35)
         fig_q1.update_yaxes(tickprefix='₹', tickformat='.2s',
-                            gridcolor='#eeeeee', color='#888888',
+                            gridcolor='#1e3a5f', color='#1e3a5f',
                             showgrid=True, zeroline=False)
-        fig_q1.update_xaxes(color='#94a3b8', showgrid=False)
+        fig_q1.update_xaxes(color='#1e3a5f', showgrid=False)
         st.plotly_chart(fig_q1, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -653,9 +653,9 @@ elif page == "📊 KPI's":
             showlegend=False
         ))
         fig_q2.update_layout(**LAYOUT, height=310)
-        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='#eeeeee',
-                            color='#64748b', showgrid=True, zeroline=False)
-        fig_q2.update_xaxes(color='#94a3b8', showgrid=False)
+        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='#1e3a5f',
+                            color='#1e3a5f', showgrid=True, zeroline=False)
+        fig_q2.update_xaxes(color='#1e3a5f', showgrid=False)
         st.plotly_chart(fig_q2, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -681,7 +681,7 @@ elif page == "📊 KPI's":
                     <div style="background:linear-gradient(90deg,#fc8019,#ff9f52);height:5px;border-radius:4px;width:{bar_pct}%;"></div>
                 </div>
             </td>
-            <td style="color:#e2e8f0;font-weight:600;">{row['Orders']:,}</td>
+            <td style="color:#1e3a5f;font-weight:600;">{row['Orders']:,}</td>
             <td style="color:#3b82f6;font-weight:700;">{fmt_inr(aov)}</td>
             <td>{stars_html} <span style="color:#f59e0b;font-weight:700;margin-left:4px;">{row['Rating']:.2f}</span></td>
         </tr>"""
@@ -801,9 +801,9 @@ elif page == "🗺️ Locations":
 st.markdown("""
 <div style='text-align:center;padding:20px 0;margin-top:20px;border-top:1px solid #1e3a5f;'>
     <span style='font-size:22px;'>🍊</span>
-    <span style='color:#94a3b8;font-size:12px;margin:0 12px;'>
+    <span style='color:#1e3a5f;font-size:12px;margin:0 12px;'>
         © 2026 <strong style='color:white;'>Prathamesh Chougule</strong> · All Rights Reserved
     </span>
     <span style='font-size:22px;'>🍊</span>
-    <br><span style='color:#475569;font-size:10px;'>Built with ❤️ using Python & Streamlit</span>
+    <br><span style='color:#1e3a5f;font-size:10px;'>Built with ❤️ using Python & Streamlit</span>
 </div>""", unsafe_allow_html=True)
