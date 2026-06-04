@@ -242,7 +242,7 @@ states  = ['All'] + sorted(df['State'].dropna().unique())
 cities  = ['All'] + sorted(df['City'].dropna().unique())
 months  = ['All'] + sorted(df['YearMonth'].dropna().unique())
 
-fc1, gap1, fc2, gap2, fc3, gap3, fc4 = st.columns([6,1,6,1,6,1,6])
+fc1, fc2, fc3, fc4 = st.columns([2,2,2,2], gap="large")
 with fc1: sel_month = st.selectbox("📅 Month", months, key='m')
 with fc2: sel_state = st.selectbox("🗺️ State", states, key='s')
 with fc3: sel_city  = st.selectbox("🏙️ City", cities, key='c')
