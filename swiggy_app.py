@@ -194,11 +194,11 @@ with st.sidebar:
         "🏪 Restaurants", "📦 Orders", "⭐ Ratings", "🗺️ Locations"
     ], label_visibility="collapsed")
 
+    delivery_img_tag = f'<img src="data:image/png;base64,{DELIVERY_BOY_B64}" style="width:100%;display:block;border-radius:12px 12px 0 0;">'
     st.markdown(f"""
     <hr style='border-color:#1e3a5f; margin: 12px 0 8px;'>
     <div class='delivery-card' style='padding:0; overflow:hidden; border-radius:12px;'>
-        <img src="data:image/png;base64,{DELIVERY_BOY_B64}" 
-             style="width:100%; display:block; border-radius:12px 12px 0 0;">
+        {delivery_img_tag}
     </div>
     <div class='ds-info'>
         📊 Data Source: Swiggy<br>
