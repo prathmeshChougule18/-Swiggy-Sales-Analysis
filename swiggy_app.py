@@ -359,8 +359,8 @@ if page == "🏠 Overview":
             pull=[0.03,0]))
         fig3.update_layout(**LAYOUT, height=200,
             annotations=[dict(text=f"<b>{fmt_M(total_for_donut)}</b><br><span style='font-size:9px'>Total Sales</span>",
-                x=0.5, y=0.5, showarrow=False, font=dict(size=12,color='white'))],
-            legend=dict(orientation='h', y=-0.1, x=0.5, xanchor='center',
+                x=0.5, y=0.5, showarrow=False, font=dict(size=12,color='#1e3a5f'))])
+        fig3.update_layout(legend=dict(orientation='h', y=-0.1, x=0.5, xanchor='center',
                         font=dict(color='#1e3a5f',size=11), bgcolor='rgba(0,0,0,0)'))
         st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
@@ -479,11 +479,10 @@ if page == "🏠 Overview":
         mode='lines+markers', line=dict(color='#ffd4a8',width=2,dash='dot'),
         marker=dict(color='#ffd4a8',size=7,symbol='circle'),
         yaxis='y2')
-    fig7.update_layout(**LAYOUT, height=220,
+    fig7.update_layout(**LAYOUT, height=220, bargap=0.2)
+    fig7.update_layout(
         legend=dict(bgcolor='rgba(0,0,0,0)', orientation='h', y=1.1, x=0.5, xanchor='center',
                     font=dict(color='#1e3a5f')),
-        bargap=0.2)
-    fig7.update_layout(
         yaxis=dict(gridcolor='rgba(30,58,95,0.15)', linecolor='#1e3a5f',
                    tickcolor='#1e3a5f', tickfont=dict(color='#1e3a5f', family='Nunito'),
                    tickprefix='₹', tickformat='.1s'),
