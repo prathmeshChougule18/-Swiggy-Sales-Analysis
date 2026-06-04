@@ -194,7 +194,14 @@ with st.sidebar:
         "🏪 Restaurants", "📦 Orders", "⭐ Ratings", "🗺️ Locations"
     ], label_visibility="collapsed")
 
-    delivery_img_tag = f'<img src="data:image/png;base64,{DELIVERY_BOY_B64}" style="width:100%;display:block;border-radius:12px 12px 0 0;">'
+    # DELIVERY_BOY_B64 placeholder — replace with your actual base64 string if needed
+    try:
+        delivery_img_tag = f'<img src="data:image/png;base64,{DELIVERY_BOY_B64}" style="width:100%;display:block;border-radius:12px 12px 0 0;">'
+    except NameError:
+        delivery_img_tag = (
+            "<div style='text-align:center;padding:18px 0;font-size:48px;"
+            "background:#1e3a5f;border-radius:12px 12px 0 0;'>🛵</div>"
+        )
     st.markdown(f"""
     <hr style='border-color:#1e3a5f; margin: 12px 0 8px;'>
     <div class='delivery-card' style='padding:0; overflow:hidden; border-radius:12px;'>
