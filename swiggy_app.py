@@ -245,7 +245,6 @@ states  = ['All'] + sorted(df['State'].dropna().unique())
 cities  = ['All'] + sorted(df['City'].dropna().unique())
 months  = ['All'] + sorted(df['YearMonth'].dropna().unique())
 
-st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 fc1, fc2, fc3, fc4 = st.columns([2,2,2,2], gap="large")
 with fc1: sel_month = st.selectbox("📅 Month", months, key='m')
 with fc2: sel_state = st.selectbox("🗺️ State", states, key='s')
@@ -283,7 +282,6 @@ if page == "🏠 Overview":
 
     # Top Bar
     date_label = f"{fdf['Order Date'].min().strftime('%d %b %Y')} – {fdf['Order Date'].max().strftime('%d %b %Y')}" if not fdf.empty else ""
-    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
     st.markdown(f"""
     <div class="swiggy-topbar">
         <div class="swiggy-brand">
@@ -383,10 +381,12 @@ if page == "🏠 Overview":
             fig4 = px.choropleth(state_rev, geojson=india_geojson,
                 featureidkey='properties.ST_NM', locations='State_GJ',
                 color='Price (INR)', color_continuous_scale=['#ffffff','#fc8019','#ffd4a8'],
-                projection='mercator')
-            fig4.update_geos(fitbounds='locations', visible=False)
+                projection='natural earth')
+            fig4.update_geos(fitbounds='locations', visible=False,
+                showcoastlines=False, showland=True, landcolor='#f0f0f0',
+                showframe=False, bgcolor='#ffffff')
             fig4.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
-                height=200, margin=dict(t=0,b=0,l=0,r=0),
+                height=230, margin=dict(t=5,b=5,l=5,r=5),
                 coloraxis_showscale=False)
         else:
             top_s = state_rev.nlargest(6,'Price (INR)')
@@ -422,10 +422,12 @@ if page == "🏠 Overview":
             fig6 = px.choropleth(state_rev, geojson=india_geojson,
                 featureidkey='properties.ST_NM', locations='State_GJ',
                 color='Price (INR)', color_continuous_scale=['#0a1929','#fc4500','#ff9f52'],
-                projection='mercator', hover_data={'State_GJ':True,'Price (INR)':True})
-            fig6.update_geos(fitbounds='locations', visible=False)
+                projection='natural earth', hover_data={'State_GJ':True,'Price (INR)':True})
+            fig6.update_geos(fitbounds='locations', visible=False,
+                showcoastlines=False, showland=True, landcolor='#f0f0f0',
+                showframe=False, bgcolor='#ffffff')
             fig6.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
-                height=220, margin=dict(t=0,b=0,l=0,r=0), coloraxis_showscale=False)
+                height=250, margin=dict(t=5,b=5,l=5,r=5), coloraxis_showscale=False)
         else:
             fig6 = px.bar(state_rev.nlargest(8,'Price (INR)').sort_values('Price (INR)'),
                 x='Price (INR)', y='State', orientation='h', color_discrete_sequence=['#fc8019'])
@@ -802,11 +804,13 @@ elif page == "🗺️ Locations":
         st.markdown('<div class="chart-card"><div class="chart-title">India State Revenue Map</div>', unsafe_allow_html=True)
         fig = px.choropleth(state_rev, geojson=india_geojson, featureidkey='properties.ST_NM',
             locations='State_GJ', color='Price (INR)',
-            color_continuous_scale=['#0a1929','#fc4500','#ffd4a8'], projection='mercator',
+            color_continuous_scale=['#0a1929','#fc4500','#ffd4a8'], projection='natural earth',
             hover_data={'State':True,'Price (INR)':True})
-        fig.update_geos(fitbounds='locations', visible=False)
+        fig.update_geos(fitbounds='locations', visible=False,
+            showcoastlines=False, showland=True, landcolor='#f0f0f0',
+            showframe=False, bgcolor='#ffffff')
         fig.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
-            height=400, margin=dict(t=0,b=0,l=0,r=0))
+            height=500, margin=dict(t=10,b=10,l=10,r=10))
         st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
     c1,c2 = st.columns(2)
