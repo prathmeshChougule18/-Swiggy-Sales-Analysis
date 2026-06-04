@@ -55,26 +55,44 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .swiggy-title-text span:last-child { color: #fc8019; margin-left: 6px; }
 .swiggy-date { color: #94a3b8; font-size: 13px; font-weight: 600; }
 
-/* KPI Cards */
+/* KPI Cards - Premium Redesign */
 .kpi-wrap {
-    background: linear-gradient(135deg, #0d2137, #0f2840);
-    border: 1px solid #1e3a5f;
-    border-radius: 12px;
-    padding: 16px;
-    display: flex; align-items: center; gap: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #0d2137 0%, #0f2840 60%, #0a1c2e 100%);
+    border: 1px solid rgba(252,128,25,0.18);
+    border-radius: 16px;
+    padding: 20px 18px 16px 18px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    position: relative; overflow: hidden;
+    min-height: 130px;
+}
+.kpi-top-row {
+    display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px;
 }
 .kpi-icon-circle {
-    width: 48px; height: 48px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
+    font-size: 20px; flex-shrink: 0;
+}
+.kpi-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 20px; letter-spacing: 0.5px;
 }
 .kpi-info { flex: 1; }
-.kpi-label { color: #64748b; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-.kpi-value { color: white; font-size: 22px; font-weight: 900; margin: 2px 0; }
-.kpi-delta { font-size: 11px; font-weight: 700; }
+.kpi-label {
+    color: #64748b; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;
+}
+.kpi-value {
+    color: white; font-size: 28px; font-weight: 900;
+    margin: 0 0 6px 0; line-height: 1; letter-spacing: -0.5px;
+}
+.kpi-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0; }
+.kpi-footer { display: flex; align-items: center; justify-content: space-between; }
+.kpi-delta { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
 .kpi-delta.up { color: #22c55e; }
 .kpi-delta.down { color: #ef4444; }
+.kpi-sub { color: #475569; font-size: 10px; }
 
 /* Chart Cards */
 .chart-card {
@@ -497,21 +515,195 @@ elif page == "📈 Sales Trends":
 
 # ═══════════════════ KPI's PAGE ═══════════════════
 elif page == "📊 KPI's":
-    st.markdown("<h2 style='color:#fc8019;'>📊 KPI Summary</h2>", unsafe_allow_html=True)
-    k1,k2,k3 = st.columns(3)
-    with k1: st.metric("Total Sales", fmt_M(fdf['Price (INR)'].sum()))
-    with k2: st.metric("Avg Rating", f"{fdf['Rating'].mean():.2f}")
-    with k3: st.metric("Avg Order Value", fmt_inr(fdf['Price (INR)'].mean()))
-    k4,k5,k6 = st.columns(3)
-    with k4: st.metric("Total Orders", f"{len(fdf):,}")
-    with k5: st.metric("Total Rating Count", f"{fdf['Rating Count'].sum():,}")
-    with k6: st.metric("Unique Restaurants", f"{fdf['Restaurant Name'].nunique():,}")
-    st.markdown('<div class="chart-card"><div class="chart-title">Quarterly Performance</div>', unsafe_allow_html=True)
-    qdf = fdf.groupby('Quarter').agg(Sales=('Price (INR)','sum'), Rating=('Rating','mean'), Orders=('Price (INR)','count')).reset_index()
-    fig = px.bar(qdf, x='Quarter', y='Sales', color_discrete_sequence=['#fc8019'],
-                 text=qdf['Sales'].apply(fmt_M))
-    fig.update_layout(**LAYOUT, height=250)
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
+    # ── Header ──
+    st.markdown("""
+    <div style='display:flex;align-items:center;gap:12px;margin-bottom:20px;'>
+        <div style='background:linear-gradient(135deg,#fc8019,#ff6b00);width:42px;height:42px;
+                    border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;
+                    box-shadow:0 4px 15px rgba(252,128,25,0.4);'>📊</div>
+        <div>
+            <div style='color:white;font-size:22px;font-weight:900;line-height:1;'>KPI Summary</div>
+            <div style='color:#64748b;font-size:12px;margin-top:2px;'>Key performance indicators at a glance</div>
+        </div>
+    </div>""", unsafe_allow_html=True)
+
+    # ── Compute values ──
+    kpi_sales   = fdf['Price (INR)'].sum()
+    kpi_rating  = fdf['Rating'].mean()
+    kpi_aov     = fdf['Price (INR)'].mean()
+    kpi_orders  = len(fdf)
+    kpi_rc      = fdf['Rating Count'].sum()
+    kpi_rest    = fdf['Restaurant Name'].nunique()
+
+    # ── helper to build premium card HTML ──
+    def kpi_card(icon, icon_bg, icon_color, accent, label, value,
+                 badge_text, badge_bg, badge_color, sub_text):
+        return f"""
+        <div class="kpi-wrap" style="border-top:3px solid {accent}; margin-bottom:14px;">
+            <div class="kpi-top-row">
+                <div class="kpi-icon-circle" style="background:{icon_bg}; color:{icon_color};">{icon}</div>
+                <span class="kpi-badge" style="background:{badge_bg}; color:{badge_color};">{badge_text}</span>
+            </div>
+            <div class="kpi-label">{label}</div>
+            <div class="kpi-value">{value}</div>
+            <div class="kpi-divider"></div>
+            <div class="kpi-footer">
+                <span class="kpi-sub">{sub_text}</span>
+                <span style="color:{accent};font-size:16px;">▸</span>
+            </div>
+        </div>"""
+
+    # ── Row 1 ──
+    k1, k2, k3 = st.columns(3)
+    with k1:
+        st.markdown(kpi_card(
+            "₹", "#3d1a00", "#fc8019", "#fc8019",
+            "TOTAL REVENUE", fmt_M(kpi_sales),
+            "SALES", "rgba(252,128,25,0.15)", "#fc8019",
+            f"Avg ₹{kpi_aov:,.0f} per order"
+        ), unsafe_allow_html=True)
+    with k2:
+        star_fill = int(round(kpi_rating))
+        stars = "★" * star_fill + "☆" * (5 - star_fill)
+        st.markdown(kpi_card(
+            "⭐", "#3d2e00", "#f59e0b", "#f59e0b",
+            "AVERAGE RATING", f"{kpi_rating:.2f}",
+            "QUALITY", "rgba(245,158,11,0.15)", "#f59e0b",
+            f"{stars} &nbsp; out of 5.0"
+        ), unsafe_allow_html=True)
+    with k3:
+        st.markdown(kpi_card(
+            "🛍️", "#0a1f3d", "#3b82f6", "#3b82f6",
+            "AVG ORDER VALUE", fmt_inr(kpi_aov),
+            "AOV", "rgba(59,130,246,0.15)", "#3b82f6",
+            f"Based on {kpi_orders:,} orders"
+        ), unsafe_allow_html=True)
+
+    # ── Row 2 ──
+    k4, k5, k6 = st.columns(3)
+    with k4:
+        st.markdown(kpi_card(
+            "📦", "#0a2d1f", "#10b981", "#10b981",
+            "TOTAL ORDERS", f"{kpi_orders:,}",
+            "VOLUME", "rgba(16,185,129,0.15)", "#10b981",
+            f"~{kpi_orders//12:,} orders/month avg"
+        ), unsafe_allow_html=True)
+    with k5:
+        st.markdown(kpi_card(
+            "👥", "#1e0a3d", "#8b5cf6", "#8b5cf6",
+            "TOTAL RATING COUNT", f"{kpi_rc:,.0f}",
+            "REVIEWS", "rgba(139,92,246,0.15)", "#8b5cf6",
+            f"~{kpi_rc//kpi_rest:,.0f} reviews per restaurant"
+        ), unsafe_allow_html=True)
+    with k6:
+        st.markdown(kpi_card(
+            "🏪", "#2d0a1e", "#ec4899", "#ec4899",
+            "UNIQUE RESTAURANTS", f"{kpi_rest:,}",
+            "PARTNERS", "rgba(236,72,153,0.15)", "#ec4899",
+            f"Across {fdf['City'].nunique()} cities"
+        ), unsafe_allow_html=True)
+
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+
+    # ── Quarterly charts ──
+    qdf = fdf.groupby('Quarter').agg(
+        Sales=('Price (INR)', 'sum'),
+        Rating=('Rating', 'mean'),
+        Orders=('Price (INR)', 'count')
+    ).reset_index().sort_values('Quarter')
+
+    qc1, qc2 = st.columns(2)
+
+    with qc1:
+        st.markdown("""<div class="chart-card">
+            <div class="chart-title">📦 Quarterly Sales Performance</div>""", unsafe_allow_html=True)
+        colors = ['#fc8019' if s == qdf['Sales'].max() else '#c45e10' for s in qdf['Sales']]
+        fig_q1 = go.Figure(go.Bar(
+            x=qdf['Quarter'], y=qdf['Sales'],
+            marker_color=colors,
+            marker_line_color='rgba(255,159,82,0.3)',
+            marker_line_width=1.5,
+            text=qdf['Sales'].apply(fmt_M),
+            textposition='outside',
+            textfont=dict(color='white', size=12, family='Nunito'),
+        ))
+        fig_q1.update_layout(**LAYOUT, height=310,
+                              yaxis=dict(tickprefix='₹', tickformat='.2s',
+                                         gridcolor='rgba(30,58,95,0.6)', color='#64748b',
+                                         showgrid=True, zeroline=False),
+                              xaxis=dict(color='#94a3b8', showgrid=False),
+                              bargap=0.35)
+        st.plotly_chart(fig_q1, use_container_width=True, config={'displayModeBar': False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with qc2:
+        st.markdown("""<div class="chart-card">
+            <div class="chart-title">⭐ Quarterly Average Rating</div>""", unsafe_allow_html=True)
+        fig_q2 = go.Figure()
+        fig_q2.add_trace(go.Scatter(
+            x=qdf['Quarter'], y=qdf['Rating'],
+            mode='lines', name='Rating',
+            line=dict(color='rgba(245,158,11,0.3)', width=3),
+            fill='tozeroy', fillcolor='rgba(245,158,11,0.06)',
+            showlegend=False
+        ))
+        fig_q2.add_trace(go.Scatter(
+            x=qdf['Quarter'], y=qdf['Rating'],
+            mode='markers+text',
+            text=[f"  {r:.2f} ⭐" for r in qdf['Rating']],
+            textposition='top right',
+            textfont=dict(color='#f59e0b', size=12, family='Nunito'),
+            marker=dict(color='#f59e0b', size=14,
+                        line=dict(color='#0d2137', width=3),
+                        symbol='circle'),
+            showlegend=False
+        ))
+        fig_q2.update_layout(**LAYOUT, height=310,
+                              yaxis=dict(range=[3.5, 5.2], gridcolor='rgba(30,58,95,0.6)',
+                                         color='#64748b', showgrid=True, zeroline=False),
+                              xaxis=dict(color='#94a3b8', showgrid=False))
+        st.plotly_chart(fig_q2, use_container_width=True, config={'displayModeBar': False})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # ── Quarterly Summary Table ──
+    best_q  = qdf.loc[qdf['Sales'].idxmax(), 'Quarter']
+    max_sales = qdf['Sales'].max()
+    st.markdown("""<div class="chart-card">
+        <div class="chart-title">📊 Quarterly Performance Breakdown</div>""", unsafe_allow_html=True)
+    table_rows = ""
+    for _, row in qdf.iterrows():
+        is_best = row['Quarter'] == best_q
+        q_badge = f"<span style='background:rgba(252,128,25,0.2);color:#fc8019;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:800;margin-left:6px;'>BEST</span>" if is_best else ""
+        bar_pct = int(row['Sales'] / max_sales * 100)
+        aov = row['Sales'] / row['Orders'] if row['Orders'] else 0
+        star_n = round(row['Rating'])
+        stars_html = "".join([f"<span style='color:#f59e0b'>★</span>" if i < star_n else f"<span style='color:#1e3a5f'>★</span>" for i in range(5)])
+        table_rows += f"""
+        <tr style="{'background:rgba(252,128,25,0.05);' if is_best else ''}">
+            <td style="color:#fc8019;font-weight:800;font-size:13px;">{row['Quarter']}{q_badge}</td>
+            <td>
+                <div style="font-weight:700;color:white;margin-bottom:3px;">{fmt_M(row['Sales'])}</div>
+                <div style="background:#0a1c2e;border-radius:4px;height:5px;width:100%;margin-top:2px;">
+                    <div style="background:linear-gradient(90deg,#fc8019,#ff9f52);height:5px;border-radius:4px;width:{bar_pct}%;"></div>
+                </div>
+            </td>
+            <td style="color:#e2e8f0;font-weight:600;">{row['Orders']:,}</td>
+            <td style="color:#3b82f6;font-weight:700;">{fmt_inr(aov)}</td>
+            <td>{stars_html} <span style="color:#f59e0b;font-weight:700;margin-left:4px;">{row['Rating']:.2f}</span></td>
+        </tr>"""
+    st.markdown(f"""
+    <table class="q-table" style="font-size:12.5px;">
+        <thead>
+            <tr>
+                <th style="width:18%;">Quarter</th>
+                <th style="width:28%;">Total Sales</th>
+                <th style="width:16%;">Orders</th>
+                <th style="width:20%;">Avg Order Value</th>
+                <th style="width:18%;">Rating</th>
+            </tr>
+        </thead>
+        <tbody>{table_rows}</tbody>
+    </table>""", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 
