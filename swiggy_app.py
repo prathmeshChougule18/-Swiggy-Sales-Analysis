@@ -32,7 +32,10 @@ section[data-testid="stSidebar"] {
     box-shadow: 2px 0 12px rgba(252,128,25,0.08) !important;
 }
 section[data-testid="stSidebar"] * { color: #1e3a5f !important; }
-section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; border-radius: 8px !important; display: block !important; }
+section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; border-radius: 8px !important; display: flex !important; align-items: center !important; flex-direction: row !important; gap: 8px !important; }
+section[data-testid="stSidebar"] .stRadio div[data-testid="stMarkdownContainer"] { display: inline !important; }
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] { display: flex !important; align-items: center !important; flex-direction: row !important; }
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-child { margin-right: 8px !important; margin-top: 0 !important; flex-shrink: 0 !important; }
 
 /* Header */
 .swiggy-topbar {
