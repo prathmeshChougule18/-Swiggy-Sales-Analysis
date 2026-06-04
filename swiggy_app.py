@@ -42,7 +42,7 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: -1rem -1.5rem 1rem -1.5rem;
+    margin: 0.5rem -1.5rem 1rem -1.5rem;
     border-radius: 0;
     box-shadow: 0 4px 16px rgba(252,128,25,0.35);
 }
@@ -140,6 +140,18 @@ section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; 
 .filter-title { color: #fc8019; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;}
+
+/* Remove white background from filter columns */
+div[data-testid="column"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 8px !important;
+}
+/* Fix selectbox container background */
+div[data-testid="stSelectbox"] > div {
+    background: transparent !important;
+}
 .stSelectbox > div > div { background: #ffffff !important; border-color: #1e3a5f !important; color: #1e3a5f !important; }
 .stSelectbox label, .stSelectbox label p,
 div[data-testid="stSelectbox"] label,
