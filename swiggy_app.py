@@ -450,12 +450,13 @@ if page == "🏠 Overview":
         marker=dict(color='#ffd4a8',size=7,symbol='circle'),
         yaxis='y2')
     fig7.update_layout(**LAYOUT, height=220,
-        yaxis=dict(gridcolor='#1e3a5f',linecolor='#1e3a5f',tickprefix='₹',tickformat='.1s'),
-        yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
-                    title='Orders', titlefont=dict(color='#ffd4a8'), tickfont=dict(color='#ffd4a8')),
         legend=dict(bgcolor='rgba(0,0,0,0)', orientation='h', y=1.1, x=0.5, xanchor='center',
                     font=dict(color='#94a3b8')),
         bargap=0.2)
+    fig7.update_layout(
+        yaxis=dict(gridcolor='#1e3a5f',linecolor='#1e3a5f',tickprefix='₹',tickformat='.1s'),
+        yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
+                    title='Orders', titlefont=dict(color='#ffd4a8'), tickfont=dict(color='#ffd4a8')))
     st.plotly_chart(fig7, use_container_width=True, config={'displayModeBar':False})
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -505,12 +506,12 @@ elif page == "📊 KPI's":
     unique_rest  = fdf['Restaurant Name'].nunique()
 
     kpi_data = [
-        ("💰", "#fc8019", "#3d1a00", "Total Revenue",       fmt_M(total_sales),          f"₹{total_sales/1e7:.2f} Crore total",  d_sales),
-        ("⭐", "#f59e0b", "#3d2e00", "Average Rating",      f"{avg_rating:.2f} / 5.0",   "Customer satisfaction score",           d_rating),
-        ("🛍️", "#3b82f6", "#0a1f3d", "Avg Order Value",    fmt_inr(avg_order),           "Per transaction average",               d_avg),
-        ("📋", "#10b981", "#0a2d1f", "Total Orders",        f"{total_orders:,}",          f"{total_orders/1000:.1f}K orders placed", d_ord),
-        ("👥", "#8b5cf6", "#1e0a3d", "Total Rating Count",  f"{total_rc/1e6:.2f}M",      "Cumulative ratings received",           d_rc),
-        ("🏪", "#ec4899", "#3d0a24", "Unique Restaurants",  f"{unique_rest:,}",           "Active restaurant partners",            0),
+        ("💰", "#fc8019", "#3d1a00", "Total Revenue",      fmt_M(total_sales),         f"₹{total_sales/1e7:.2f} Crore total",     d_sales),
+        ("⭐", "#f59e0b", "#3d2e00", "Average Rating",     f"{avg_rating:.2f} / 5.0",  "Customer satisfaction score",              d_rating),
+        ("🛍️", "#3b82f6", "#0a1f3d", "Avg Order Value",   fmt_inr(avg_order),          "Per transaction average",                 d_avg),
+        ("📋", "#10b981", "#0a2d1f", "Total Orders",       f"{total_orders:,}",         f"{total_orders/1000:.1f}K orders placed", d_ord),
+        ("👥", "#8b5cf6", "#1e0a3d", "Total Rating Count", f"{total_rc/1e6:.2f}M",     "Cumulative ratings received",              d_rc),
+        ("🏪", "#ec4899", "#3d0a24", "Unique Restaurants", f"{unique_rest:,}",          "Active restaurant partners",              0),
     ]
 
     c1, c2, c3 = st.columns(3)
@@ -518,10 +519,10 @@ elif page == "📊 KPI's":
     for i, (icon, color, bg, label, val, sub, delta) in enumerate(kpi_data):
         d_class = "up" if delta >= 0 else "down"
         d_arrow = "▲" if delta >= 0 else "▼"
-        delta_html = f"<div class='kpi-delta {d_class}'>{d_arrow} {abs(delta):.1f}% vs prev month</div>" if delta != 0 else f"<div style='color:#475569;font-size:11px;'>—</div>"
+        delta_html = f"<div class='kpi-delta {d_class}'>{d_arrow} {abs(delta):.1f}% vs prev month</div>" if delta != 0 else "<div style='color:#475569;font-size:11px;'>—</div>"
         with cols_cycle[i]:
             st.markdown(f"""
-            <div class="kpi-wrap" style="margin-bottom:12px; position:relative; overflow:hidden;">
+            <div class="kpi-wrap" style="margin-bottom:12px;position:relative;overflow:hidden;">
                 <div style="position:absolute;right:-10px;top:-10px;font-size:60px;opacity:0.06;">{icon}</div>
                 <div class="kpi-icon-circle" style="background:{bg};color:{color};font-size:24px;width:52px;height:52px;">{icon}</div>
                 <div class="kpi-info">
@@ -534,25 +535,23 @@ elif page == "📊 KPI's":
 
     st.markdown("<div style='margin:8px 0'></div>", unsafe_allow_html=True)
 
-    # ── Row: Quarterly bar + Rating gauge + Veg/NonVeg donut ──
     qa, qb, qc = st.columns([2, 1, 1])
 
     with qa:
         st.markdown('<div class="chart-card">', unsafe_allow_html=True)
         st.markdown('<div class="chart-title">📅 Quarterly Revenue Breakdown</div>', unsafe_allow_html=True)
         qdf = fdf.groupby('Quarter').agg(Sales=('Price (INR)','sum'), Rating=('Rating','mean'), Orders=('Price (INR)','count')).reset_index().sort_values('Quarter')
-        colors_q = ['#fc8019','#ff9f52','#ffc088','#ffd4a8'][:len(qdf)]
-        fig = go.Figure()
-        for idx, row in qdf.iterrows():
-            fig.add_bar(x=[row['Quarter']], y=[row['Sales']],
-                marker_color=colors_q[idx % len(colors_q)],
+        q_colors = ['#fc8019','#ff9f52','#ffc088','#ffd4a8']
+        fig_q = go.Figure()
+        for idx, (_, row) in enumerate(qdf.iterrows()):
+            fig_q.add_bar(x=[row['Quarter']], y=[row['Sales']],
+                marker_color=q_colors[idx % len(q_colors)],
                 text=[fmt_M(row['Sales'])], textposition='outside',
-                textfont=dict(color='white', size=12),
-                name=row['Quarter'])
-        fig.update_layout(**LAYOUT, height=280, showlegend=False, bargap=0.35)
-        fig.update_yaxes(tickprefix='₹', tickformat='.1s')
-        fig.update_xaxes(tickfont=dict(size=12, color='#94a3b8'))
-        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
+                textfont=dict(color='white', size=12), name=row['Quarter'])
+        fig_q.update_layout(**LAYOUT, height=280, showlegend=False, bargap=0.35)
+        fig_q.update_yaxes(tickprefix='₹', tickformat='.1s')
+        fig_q.update_xaxes(tickfont=dict(size=12, color='#94a3b8'))
+        st.plotly_chart(fig_q, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
 
     with qb:
@@ -565,8 +564,7 @@ elif page == "📊 KPI's":
             gauge={
                 'axis': {'range': [0, 5], 'tickcolor': '#94a3b8', 'tickfont': {'color': '#94a3b8', 'size': 10}},
                 'bar': {'color': '#fc8019', 'thickness': 0.25},
-                'bgcolor': '#0d2137',
-                'bordercolor': '#1e3a5f',
+                'bgcolor': '#0d2137', 'bordercolor': '#1e3a5f',
                 'steps': [
                     {'range': [0, 2.5], 'color': '#1a0a00'},
                     {'range': [2.5, 4.0], 'color': '#3d1a00'},
@@ -584,13 +582,12 @@ elif page == "📊 KPI's":
 
     with qc:
         st.markdown('<div class="chart-card">', unsafe_allow_html=True)
-        st.markdown('<div class="chart-title">🥗 Veg vs Non-Veg Split</div>', unsafe_allow_html=True)
+        st.markdown('<div class="chart-title">🥗 Veg vs Non-Veg</div>', unsafe_allow_html=True)
         frev = fdf.groupby('Food Category')['Price (INR)'].sum().reset_index()
         fig_d = go.Figure(go.Pie(
             values=frev['Price (INR)'], labels=frev['Food Category'],
             hole=0.58, marker_colors=['#22c55e','#fc8019'],
-            textinfo='label+percent', textfont=dict(size=11, color='white'),
-            pull=[0.04, 0]))
+            textinfo='label+percent', textfont=dict(size=11, color='white'), pull=[0.04, 0]))
         fig_d.update_layout(**LAYOUT, height=280,
             legend=dict(orientation='h', y=-0.1, x=0.5, xanchor='center',
                         font=dict(color='#94a3b8', size=10), bgcolor='rgba(0,0,0,0)'),
@@ -599,7 +596,6 @@ elif page == "📊 KPI's":
         st.plotly_chart(fig_d, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ── Row: Monthly trend + Top categories ──
     ra, rb = st.columns([3, 2])
 
     with ra:
