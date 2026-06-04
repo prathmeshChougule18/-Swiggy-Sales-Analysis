@@ -456,7 +456,8 @@ if page == "🏠 Overview":
     fig7.update_layout(
         yaxis=dict(gridcolor='#1e3a5f',linecolor='#1e3a5f',tickprefix='₹',tickformat='.1s'),
         yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
-                    title='Orders', titlefont=dict(color='#ffd4a8'), tickfont=dict(color='#ffd4a8')))
+                    title=dict(text='Orders', font=dict(color='#ffd4a8')),
+                    tickfont=dict(color='#ffd4a8')))
     st.plotly_chart(fig7, use_container_width=True, config={'displayModeBar':False})
     st.markdown('</div>', unsafe_allow_html=True)
 
