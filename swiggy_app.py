@@ -15,133 +15,128 @@ DELIVERY_BOY_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAA
 
 st.set_page_config(page_title="Swiggy Sales Dashboard", page_icon="🍊", layout="wide")
 
-# ═══════════════════ CSS - EXACT SWIGGY DARK NAVY THEME ═══════════════════
+# ═══════════════════ CSS - SWIGGY LIGHT THEME (#EEEEEE + #FC8019) ═══════════════════
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 html, body, [class*="css"] { font-family: 'Nunito', sans-serif !important; }
 
-/* Dark navy background */
-.stApp { background-color: #0a1929 !important; }
+/* Background */
+.stApp { background-color: #EEEEEE !important; }
 .main .block-container { padding: 1rem 1.5rem !important; max-width: 100% !important; }
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #07111f 0%, #0a1929 100%) !important;
-    border-right: 1px solid #1e3a5f !important; width: 220px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%) !important;
+    border-right: 2px solid #fc8019 !important; width: 220px !important;
+    box-shadow: 2px 0 12px rgba(252,128,25,0.08) !important;
 }
-section[data-testid="stSidebar"] * { color: #94a3b8 !important; }
+section[data-testid="stSidebar"] * { color: #333333 !important; }
 section[data-testid="stSidebar"] .stRadio label { padding: 8px 12px !important; border-radius: 8px !important; display: block !important; }
 
 /* Header */
 .swiggy-topbar {
-    background: #07111f;
-    border-bottom: 1px solid #1e3a5f;
+    background: linear-gradient(90deg, #fc8019 0%, #ff9f52 100%);
+    border-bottom: none;
     padding: 12px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: -1rem -1.5rem 1rem -1.5rem;
     border-radius: 0;
+    box-shadow: 0 4px 16px rgba(252,128,25,0.35);
 }
 .swiggy-brand { display: flex; align-items: center; gap: 12px; }
 .swiggy-logo-circle {
     width: 40px; height: 40px; border-radius: 50%;
-    background: #fc8019; display: flex; align-items: center;
+    background: white; display: flex; align-items: center;
     justify-content: center; font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 .swiggy-title-text { font-size: 22px; font-weight: 900; }
 .swiggy-title-text span:first-child { color: white; }
-.swiggy-title-text span:last-child { color: #fc8019; margin-left: 6px; }
-.swiggy-date { color: #94a3b8; font-size: 13px; font-weight: 600; }
+.swiggy-title-text span:last-child { color: #fff3e0; margin-left: 6px; }
+.swiggy-date { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; }
 
-/* KPI Cards - Premium Redesign */
+/* KPI Cards */
 .kpi-wrap {
-    background: linear-gradient(135deg, #0d2137 0%, #0f2840 60%, #0a1c2e 100%);
-    border: 1px solid rgba(252,128,25,0.18);
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
     border-radius: 16px;
     padding: 20px 18px 16px 18px;
     display: flex; flex-direction: column;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
     position: relative; overflow: hidden;
     min-height: 130px;
 }
-.kpi-top-row {
-    display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px;
-}
+.kpi-top-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
 .kpi-icon-circle {
     width: 44px; height: 44px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; flex-shrink: 0;
 }
-.kpi-badge {
-    font-size: 10px; font-weight: 700; padding: 3px 8px;
-    border-radius: 20px; letter-spacing: 0.5px;
-}
-.kpi-info { flex: 1; }
-.kpi-label {
-    color: #64748b; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;
-}
-.kpi-value {
-    color: white; font-size: 28px; font-weight: 900;
-    margin: 0 0 6px 0; line-height: 1; letter-spacing: -0.5px;
-}
-.kpi-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0; }
+.kpi-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.5px; }
+.kpi-label { color: #888888; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+.kpi-value { color: #1a1a1a; font-size: 28px; font-weight: 900; margin: 0 0 6px 0; line-height: 1; letter-spacing: -0.5px; }
+.kpi-divider { height: 1px; background: #eeeeee; margin: 8px 0; }
 .kpi-footer { display: flex; align-items: center; justify-content: space-between; }
 .kpi-delta { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
-.kpi-delta.up { color: #22c55e; }
-.kpi-delta.down { color: #ef4444; }
-.kpi-sub { color: #475569; font-size: 10px; }
+.kpi-delta.up { color: #16a34a; }
+.kpi-delta.down { color: #dc2626; }
+.kpi-sub { color: #aaaaaa; font-size: 10px; }
 
 /* Chart Cards */
 .chart-card {
-    background: #0d2137;
-    border: 1px solid #1e3a5f;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 .chart-title {
-    color: #e2e8f0; font-size: 13px; font-weight: 700;
+    color: #333333; font-size: 13px; font-weight: 800;
     margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    border-left: 3px solid #fc8019; padding-left: 8px;
 }
 
 /* Quarterly table */
 .q-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.q-table th { color: #64748b; font-weight: 700; padding: 8px 6px; border-bottom: 1px solid #1e3a5f; text-align: left; }
-.q-table td { color: #e2e8f0; padding: 8px 6px; border-bottom: 1px solid #1e3a5f; }
-.q-badge { background: #1a3a1a; color: #22c55e; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-.q-dash { color: #475569; }
+.q-table th { color: #888888; font-weight: 700; padding: 8px 6px; border-bottom: 2px solid #eeeeee; text-align: left; }
+.q-table td { color: #333333; padding: 8px 6px; border-bottom: 1px solid #f0f0f0; }
+.q-table tr:hover td { background: #fef9f5; }
+.q-badge { background: #fff3e0; color: #fc8019; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+.q-dash { color: #bbbbbb; }
 
 /* City bar */
 .city-row { margin: 6px 0; }
-.city-name { color: #94a3b8; font-size: 12px; margin-bottom: 3px; display: flex; justify-content: space-between; }
-.city-bar-bg { background: #1e3a5f; border-radius: 4px; height: 8px; }
+.city-name { color: #555555; font-size: 12px; margin-bottom: 3px; display: flex; justify-content: space-between; }
+.city-bar-bg { background: #e8e8e8; border-radius: 4px; height: 8px; }
 .city-bar-fill { background: linear-gradient(90deg, #fc8019, #ff9f52); border-radius: 4px; height: 8px; }
 
-/* Delivery guy card */
+/* Delivery card */
 .delivery-card {
-    background: linear-gradient(135deg, #0d2137, #1a3a5f);
-    border: 1px solid #fc8019;
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border: 2px solid #fc8019;
     border-radius: 12px; padding: 16px; text-align: center;
     margin: 12px 0;
 }
-.delivery-tagline { color: white; font-weight: 800; font-size: 13px; line-height: 1.4; }
+.delivery-tagline { color: #1a1a1a; font-weight: 800; font-size: 13px; line-height: 1.4; }
 .delivery-sub { color: #fc8019; font-size: 11px; margin-top: 4px; }
 
 /* Data source footer */
-.ds-info { color: #475569; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #1e3a5f; }
+.ds-info { color: #aaaaaa; font-size: 11px; margin-top: 8px; padding: 8px 0; border-top: 1px solid #e0e0e0; }
 
 /* Filters */
 .filter-card {
-    background: #0d2137; border: 1px solid #1e3a5f;
+    background: #ffffff; border: 1px solid #e0e0e0;
     border-radius: 12px; padding: 14px; margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .filter-title { color: #fc8019; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;}
-.stSelectbox > div > div { background: #0d2137 !important; border-color: #1e3a5f !important; color: white !important; }
+.stSelectbox > div > div { background: #ffffff !important; border-color: #e0e0e0 !important; color: #333333 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -187,11 +182,11 @@ def delta_pct(curr, prev):
     if prev==0: return 0
     return (curr - prev) / prev * 100
 
-LAYOUT = dict(paper_bgcolor='#0d2137', plot_bgcolor='#0d2137',
-              font=dict(color='#94a3b8', family='Nunito', size=11),
+LAYOUT = dict(paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
+              font=dict(color='#555555', family='Nunito', size=11),
               margin=dict(t=10,b=10,l=10,r=10),
-              xaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True),
-              yaxis=dict(gridcolor='#1e3a5f', linecolor='#1e3a5f', showgrid=True))
+              xaxis=dict(gridcolor='#eeeeee', linecolor='#e0e0e0', showgrid=True),
+              yaxis=dict(gridcolor='#eeeeee', linecolor='#e0e0e0', showgrid=True))
 
 df = load_data()
 india_geojson = get_india_geojson()
@@ -365,10 +360,10 @@ if page == "🏠 Overview":
         if india_geojson:
             fig4 = px.choropleth(state_rev, geojson=india_geojson,
                 featureidkey='properties.ST_NM', locations='State_GJ',
-                color='Price (INR)', color_continuous_scale=['#0d2137','#fc8019','#ffd4a8'],
+                color='Price (INR)', color_continuous_scale=['#ffffff','#fc8019','#ffd4a8'],
                 projection='mercator')
             fig4.update_geos(fitbounds='locations', visible=False)
-            fig4.update_layout(paper_bgcolor='#0d2137', geo_bgcolor='#0d2137',
+            fig4.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
                 height=200, margin=dict(t=0,b=0,l=0,r=0),
                 coloraxis_showscale=False)
         else:
@@ -407,7 +402,7 @@ if page == "🏠 Overview":
                 color='Price (INR)', color_continuous_scale=['#0a1929','#fc4500','#ff9f52'],
                 projection='mercator', hover_data={'State_GJ':True,'Price (INR)':True})
             fig6.update_geos(fitbounds='locations', visible=False)
-            fig6.update_layout(paper_bgcolor='#0d2137', geo_bgcolor='#0d2137',
+            fig6.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
                 height=220, margin=dict(t=0,b=0,l=0,r=0), coloraxis_showscale=False)
         else:
             fig6 = px.bar(state_rev.nlargest(8,'Price (INR)').sort_values('Price (INR)'),
@@ -476,7 +471,7 @@ if page == "🏠 Overview":
                     font=dict(color='#94a3b8')),
         bargap=0.2)
     fig7.update_layout(
-        yaxis=dict(gridcolor='#1e3a5f',linecolor='#1e3a5f',tickprefix='₹',tickformat='.1s'),
+        yaxis=dict(gridcolor='#eeeeee',linecolor='#eeeeee',tickprefix='₹',tickformat='.1s'),
         yaxis2=dict(overlaying='y', side='right', showgrid=False, tickformat='.1s',
                     title=dict(text='Orders', font=dict(color='#ffd4a8')),
                     tickfont=dict(color='#ffd4a8')))
@@ -507,7 +502,7 @@ elif page == "📈 Sales Trends":
     st.markdown('<div class="chart-card"><div class="chart-title">Top 10 Categories by Revenue</div>', unsafe_allow_html=True)
     cat = fdf.groupby('Category')['Price (INR)'].sum().nlargest(10).sort_values().reset_index()
     fig3 = px.bar(cat, x='Price (INR)', y='Category', orientation='h',
-                  color='Price (INR)', color_continuous_scale=['#0d2137','#fc8019'])
+                  color='Price (INR)', color_continuous_scale=['#ffffff','#fc8019'])
     fig3.update_layout(**LAYOUT, height=300, coloraxis_showscale=False)
     st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar':False})
     st.markdown('</div>', unsafe_allow_html=True)
@@ -629,7 +624,7 @@ elif page == "📊 KPI's":
         ))
         fig_q1.update_layout(**LAYOUT, height=310, bargap=0.35)
         fig_q1.update_yaxes(tickprefix='₹', tickformat='.2s',
-                            gridcolor='rgba(30,58,95,0.6)', color='#64748b',
+                            gridcolor='#eeeeee', color='#888888',
                             showgrid=True, zeroline=False)
         fig_q1.update_xaxes(color='#94a3b8', showgrid=False)
         st.plotly_chart(fig_q1, use_container_width=True, config={'displayModeBar': False})
@@ -653,12 +648,12 @@ elif page == "📊 KPI's":
             textposition='top right',
             textfont=dict(color='#f59e0b', size=12, family='Nunito'),
             marker=dict(color='#f59e0b', size=14,
-                        line=dict(color='#0d2137', width=3),
+                        line=dict(color='#ffffff', width=3),
                         symbol='circle'),
             showlegend=False
         ))
         fig_q2.update_layout(**LAYOUT, height=310)
-        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='rgba(30,58,95,0.6)',
+        fig_q2.update_yaxes(range=[3.5, 5.2], gridcolor='#eeeeee',
                             color='#64748b', showgrid=True, zeroline=False)
         fig_q2.update_xaxes(color='#94a3b8', showgrid=False)
         st.plotly_chart(fig_q2, use_container_width=True, config={'displayModeBar': False})
@@ -682,7 +677,7 @@ elif page == "📊 KPI's":
             <td style="color:#fc8019;font-weight:800;font-size:13px;">{row['Quarter']}{q_badge}</td>
             <td>
                 <div style="font-weight:700;color:white;margin-bottom:3px;">{fmt_M(row['Sales'])}</div>
-                <div style="background:#0a1c2e;border-radius:4px;height:5px;width:100%;margin-top:2px;">
+                <div style="background:#f5f5f5;border-radius:4px;height:5px;width:100%;margin-top:2px;">
                     <div style="background:linear-gradient(90deg,#fc8019,#ff9f52);height:5px;border-radius:4px;width:{bar_pct}%;"></div>
                 </div>
             </td>
@@ -781,7 +776,7 @@ elif page == "🗺️ Locations":
             color_continuous_scale=['#0a1929','#fc4500','#ffd4a8'], projection='mercator',
             hover_data={'State':True,'Price (INR)':True})
         fig.update_geos(fitbounds='locations', visible=False)
-        fig.update_layout(paper_bgcolor='#0d2137', geo_bgcolor='#0d2137',
+        fig.update_layout(paper_bgcolor='#ffffff', geo_bgcolor='#ffffff',
             height=400, margin=dict(t=0,b=0,l=0,r=0))
         st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
@@ -789,7 +784,7 @@ elif page == "🗺️ Locations":
     with c1:
         st.markdown('<div class="chart-card"><div class="chart-title">Revenue by State</div>', unsafe_allow_html=True)
         fig2 = px.bar(state_rev.sort_values('Price (INR)',ascending=True), x='Price (INR)', y='State',
-                      orientation='h', color='Price (INR)', color_continuous_scale=['#0d2137','#fc8019'])
+                      orientation='h', color='Price (INR)', color_continuous_scale=['#ffffff','#fc8019'])
         fig2.update_layout(**LAYOUT, height=500, coloraxis_showscale=False)
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar':False})
         st.markdown('</div>', unsafe_allow_html=True)
